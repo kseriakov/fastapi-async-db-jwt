@@ -1,6 +1,0 @@
-Инициализация alembic - alembic init migrations
-
-Сделать ревизию - alembic revision --autogenerate  -m "First"
-После миграция - alembic upgrade head
-
-Generic single-database configuration.

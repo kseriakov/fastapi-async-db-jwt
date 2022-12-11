@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Table
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship
-from datetime import datetime
+from sqlalchemy.orm import backref, relationship
 
-from core.db import Base, engine
-from user.models import User
+from core.db import Base
 
 
 class Post(Base):
@@ -16,9 +14,10 @@ class Post(Base):
     text = Column(String(350))
     date = Column(DateTime, server_default=func.now())
     user_id = Column(Integer, ForeignKey("microblog_user.id"))
-    user = relationship(User)
+    owner = relationship("User", back_populates="posts")
+    parent_id = Column(Integer, ForeignKey("microblog_posts.id"))
+    children = relationship("Post", backref=backref("parent", remote_side=[id]))
 
 
 #  Получаем экземпляр Table, для работы с databases, т.к. там только ORM
 posts_table: Table = Post.__table__
-

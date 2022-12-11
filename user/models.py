@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, Integer, String, DateTime, Table
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from core.db import Base
@@ -14,6 +15,7 @@ class User(Base):
     date = Column(DateTime, server_default=func.now())
     is_active = Column(Boolean, server_default="True")
     is_admin = Column(Boolean, server_default="False")
+    posts = relationship("Post", back_populates="owner")
 
 
 users_table: Table = User.__table__

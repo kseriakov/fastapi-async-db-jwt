@@ -22,6 +22,6 @@ class UserShow(UserBase):
     id: int
     date: datetime
     is_active: bool
-    is_superuser: bool
+    is_admin: bool
 
     
