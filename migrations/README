@@ -1,0 +1,4 @@
+Инициализация alembic - alembic init async ./migrations
+
+Сделать ревизию - alembic revision --autogenerate  -m "First"
+После миграция - alembic upgrade head
