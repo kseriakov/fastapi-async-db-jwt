@@ -53,6 +53,10 @@ class Jwt:
         refresh_token = self.create_token(data)
         return Tokens(access_token=access_token, refresh_token=refresh_token)
 
+    def refresh_tokens(self, refresh: str, data: dict) -> Tokens:
+        self.verify_token(refresh)
+        return self.create_tokens(data)
+
     def get_tokens(
         self, username: str, plain_password: str, hashed_password: str
     ) -> Tokens:
@@ -69,6 +73,11 @@ class Jwt:
             payload = jwt.decode(
                 token, self.secret_key, algorithms=[self.algorithm]
             )
+
+            exp = datetime.utcfromtimestamp(payload["exp"])
+            if exp < datetime.utcnow():
+                raise UnAuthorized()
+
         except JWTError:
             raise UnAuthorized()
         return TokenPayload(**payload)
